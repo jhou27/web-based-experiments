@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Semantic relatedness</title>
+        <script src="jspsych/jspsych.js"></script>
+        <script src="jspsych/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych/plugins/jspsych-audio-keyboard-response.js"></script>
+        <script src="jspsych/plugins/jspsych-instructions.js"></script>
+        <script src="js/practice_trial_info.js"></script>
+        <script src="js/amb_trial_info_v1.js"></script>
+        <script src="js/amb_trial_info_v2.js"></script>
+        <script src="js/filler_trial_info.js"></script>
+        <link href="jspsych/css/jspsych.css" rel="stylesheet">
+    </head>
+    
+    <body>
+    </body>
+    <script>
+    
+jsPsych.init({
+            timeline: timeline,
+            preload_audio: all_audio,
+            show_preload_progress_bar: true,
+            use_webaudio: false,
+            on_finish: function() {
+                jsPsych.data.displayData();
+            }
+        })
+
+    </script>
+<html>
