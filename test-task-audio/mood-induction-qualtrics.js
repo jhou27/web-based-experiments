@@ -23,7 +23,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
     var script_order = '';
 
     // requiredResources must include all the required JS files
-    var task_github = "https://kywch.github.io/Mood-Induction_jsPsych/"; // https://<your-github-username>.github.io/<your-experiment-name>
+    var task_github = "https://jhou27.github.io/web-based-experiments/test-task-audio/"; // https://<your-github-username>.github.io/<your-experiment-name>
     var requiredResources = [
         task_github + "jspsych-6.1.0/jspsych.js",
         task_github + "jspsych-6.1.0/plugins/jspsych-fullscreen.js",
