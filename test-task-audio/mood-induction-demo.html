@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mood induction demo</title>
+    <script src="jspsych-6.1.0/jspsych.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+    <script src="jspsych-mood-induction.js"></script>
+</head>
+
+<body>
+
+    <!-- Change 3: Adding extra scripts for Qualtrics -->
+    <!-- COPY PASTE TO QUALTRICS FROM HERE -->
+    <link href="https://kywch.github.io/Mood-Induction_jsPsych/jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
+    </link>
+    <div>
+        <span style="font-size: 24px;">
+            <br><br>
+            If you are seeing this message for <span style="color: rgb(255, 0, 0);">
+                <b>more than 5 minutes</b></span>,<br>
+            please screen-capture this screen and send the image to us.
+            <br><br>
+            <span style="font-size: 28px;">We are very sorry for the inconvenience.</span>
+        </span>
+    </div>
+
+    <!-- Change 2: Adding `display_stage` CSS and Div -->
+    <style>
+        #display_stage_background {
+            width: 100vw;
+            background-color: white;
+            z-index: -1;
+        }
+
+        #display_stage {
+            position: fixed;
+            left: 1vw;
+            top: 1vh;
+            height: 98vh;
+            width: 98vw;
+            background-color: white;
+            box-shadow: 1px 1px 1px #999;
+            border-radius: 15px;
+            z-index: 0;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        #centerbox {
+            width: 80vh;
+            height: 20vh;
+            position: relative;
+            top: 40%;
+            font-size: 22pt;
+            line-height: normal;
+        }
+    </style>
+    <!-- COPY PASTE TO QUALTRICS UP TO HERE -->
+
+    <div id='display_stage_background'></div>
+    <div id='display_stage'></div>
+
+</body>
+
+<script>
+
+    /* get the mood from url */
+    const urlParams = new URLSearchParams(window.location.search);
+    var mood = urlParams.get('mood');
+    console.log('Entered mood: ', mood);
+
+    if (mood === null) {
+        mood = 'happy';
+    }
+
+    /* create timeline */
+    var timeline = [];
+    var mood_spent_time = '';
+    var script_order = '';
+
+    var time_unit = 100; // 100 ms for debug, 1000 ms for actual
+
+    /* mood induction scripts */
+    var mood_music = {
+        happy: 'https://kywch.github.io/Mood-Induction_jsPsych/music/Mazurka_HappyMIP.mp3', // happy
+        angry: 'https://kywch.github.io/Mood-Induction_jsPsych/music/NightOnBaldMountain_AngerMIP.mp3', // angry
+        fear: 'https://kywch.github.io/Mood-Induction_jsPsych/music/PsychoTheme_FearMIP.mp3', // fear
+        sad: 'https://kywch.github.io/Mood-Induction_jsPsych/music/ChopinOpus28no6_SadMIP.mp3', // sad
+        neutral: 'https://kywch.github.io/Mood-Induction_jsPsych/music/ChopinWaltz11_NeutralMIP.mp3' // neutral
+    };
+    var mood_scripts = {};
+
+    mood_scripts['happy'] = [ // happy
+        "You just got a new job, and it's even better than you expected.",
+        "You wake up on a Saturday after a number of wintry-cold rainy days, and the temperature is in the high sixties.",
+        "You buy a lottery ticket and you win $100.00 instantly.",
+        "You and a friend go to a nice restaurant. The meal, the conversation and the atmosphere are all perfect.",
+        "You get out of class or work early. It’s a beautiful day and you and some friends go out for ice cream.",
+        "You spend a day in the mountains; the air is clean and sharp, the day sunny, and you take a swim in a beautiful lake.",
+        "You unexpectedly run into someone you like. You go for coffee and have a great conversation. You discover you think alike, and share many of the same interests.",
+        "It’s your birthday and friends throw you a terrific surprise party."
+    ];
+
+    mood_scripts['angry'] = [ // angry
+        "A student stole the exam in an important course you’re taking. The teacher takes it out on everyone by making such a tough exam that you get a very low grade even though you understood the material.",
+        "A friend of yours was assaulted by a convicted rapist just released on parole.",
+        "Your boss decides to promote another employee who is related to him to a position he knew you wanted. He tells you that you didn’t work hard enough, even though he knows you worked much harder and better than his relative.",
+        "It’s a very hot day, and you have been standing in a long, slow line at the Department of Motor Vehicles for over an hour. Kids are screaming all around you when two of the four clerks close their windows for no apparent reason.",
+        "Someone put a big scratch in your car while it was parked in the lot and didn’t even bother to leave a note.",
+        "The landlord doesn’t like you and has been accusing you of unsanitary conditions, even though you keep your apartment very clean. You arrive home only to see an eviction notice on your door.",
+        "Somebody files false legal claim against you.",
+        "You have had a long, busy day and the person you live with starts to complain about how you forgot to do something that you forgot to do."
+    ]
+
+    mood_scripts['fear'] = [ // fear
+        "You are riding alone in an elevator when a man walks in and pulls out a knife. He stares at you without saying what he wants.",
+        "You’re in an overcrowded carriage at the top of a ferris wheel when the mechanism malfunctions and the wheel jams. A thunder storm is developing, and the wheel sways in the wind, it’s metal creaking.",
+        "Your car breaks down on a back street in a dangerous part of the city. You start to go for help when you see several teenage boys walking toward you carrying weapons.",
+        "You are driving down an unfamiliar road on a stormy night when your car skids out of control.",
+        "You are driving down the road when a tractor trailer in the opposite direction crosses over into your lane.",
+        "You’re in your your bedroom late at night when you hear someone enter your apartment. No one else you know has a key.",
+        "You’re swimming in a dark lake and something big, slimy, and prickly brushes against your leg.",
+        "You’re having a nightmare about someone chasing you and you fall into a bottomless pit. You start to scream in your sleep."
+    ];
+
+    mood_scripts['sad'] = [ // sad
+        "You read in the newspaper that a teacher you used to house-sit for recently passed away.",
+        "You are told by a young relative that she has cancer and only six months to live.",
+        "You have been dating someone and thought it looked quite promising, when the person calls you up and tells you he/she doesn’t want to see you anymore.",
+        "A pet you were really fond of has died.",
+        "Your best friend just got married and is moving far away from you.",
+        "No one remembers your birthday.",
+        "A relative of yours, with whom you’ve shared a close relationship, has been diagnosed as having cancer and has only a short time to live.",
+        "A beloved pet dies of old age. You have very fond memories of your pet and are reminded of them every time you see a similar breed."
+    ];
+
+    mood_scripts['neutral'] = [ // neutral
+        "You get up in the morning, get dressed and have your usual breakfast.",
+        "You go to the supermarket and get a week’s worth of groceries. You unload the bags from the car and put the food away.",
+        "It is the evening and you are feeling tired. You have a long bath, wash your hair, and watch some television.",
+        "You decide to clean your kitchen, and spend some time wiping down the counter tops and sweeping the floor.",
+        "As you are driving you notice you are low on gas. You fill up your car from a nearby gas station and buy a drink while you are there.",
+        "You go to a restaurant and order a starter and a main course. You have a glass of water with your meal.",
+        "Whilst going for a walk you meet someone you know. You chat about the weather and your plans for the weekend.",
+        "You and some friends go to your local cinema and watch a film. After it is finished you go home."
+    ];
+
+    // use the full screen
+    // also playing sound only works after an interaction with user, like button press
+    timeline.push({
+        type: 'fullscreen',
+        message: '<p>Music will start to play when you press the button below.</p>',
+        fullscreen_mode: true
+    });
+
+    function generate_mood_induction(mood = 'happy') {
+
+        if (mood_music[mood] === undefined) {
+            throw 'Undefined mood was entered.';
+        }
+
+        var pages = [];
+        pages.push({
+            prompt: '<div id=centerbox>Please listen to the music for a minute.</div>',
+            duration: 60 * time_unit
+        });
+        let order = jsPsych.randomization.shuffle([...Array(mood_scripts[mood].length).keys()])
+        for (let ii of order) {
+            pages.push({
+                prompt: "<div id=centerbox>" + mood_scripts[mood][ii] + "</div>",
+                duration: 30 * time_unit
+            });
+        }
+        return {
+            type: 'mood-induction',
+            background_music: mood_music[mood],
+            pages: pages,
+            on_finish: function (data) {
+                script_order = order.toString().replace(/,/g, ';');
+                mood_spent_time = data.view_history.toString().replace(/,/g, ';');
+                console.log(pages);
+                console.log(script_order, mood_spent_time);
+            }
+        }
+    }
+    timeline.push(generate_mood_induction(mood));
+
+    timeline.push({
+        type: 'fullscreen',
+        fullscreen_mode: false
+    });
+
+    /* Change 1: Using `display_element` */
+    jsPsych.init({
+        timeline: timeline,
+        display_element: 'display_stage'
+    })
+</script>
+
+</html>
