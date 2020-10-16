@@ -76,11 +76,8 @@ var welcome_screen = {
       }
       
       
-
-   
-
         var timeline = [];
-        
+
         timeline.push(welcome_screen);
         timeline.push(test_procedure_first_half);
         timeline.push(test_procedure_first_half);
