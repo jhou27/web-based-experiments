@@ -11,13 +11,20 @@ Qualtrics.SurveyEngine.addOnload(function () {
 
     /* Change 2: Defining and loading required resources */
     var jslib_url = "http://jhou27.github.io/web-based-experiments/VAS/";
+    
 
     // the below urls must be accessible with your browser
     // for example, https://kywch.github.io/jsPsych/jspsych.js
     var requiredResources = [
         'https://cdnjs.cloudflare.com/ajax/libs/dropbox.js/4.0.30/Dropbox-sdk.min.js', // Change 6: Loading the Dropbox API
         jslib_url + "jspsych-6.1.0/jspsych.js",
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-survey-html-form.js"
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-fullscreen.js"
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-survey-text.js"
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-html-button-response.js"
         jslib_url + "jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"
+        jslib_url + "jspsych-6.1.0/plugins/jspsych-survey-multi-select.js"
         jslib_url + "VAS_main.js"
     ];
 
