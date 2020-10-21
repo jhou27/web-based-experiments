@@ -1,9 +1,9 @@
-var timeline = [];
+  
 
   var fullscreen_trial = {
     type: 'fullscreen',
     fullscreen_mode: true
-  }
+   }
 
   var instructions = {
     type: 'html-button-response',
@@ -13,17 +13,14 @@ var timeline = [];
       //'<p>.</p><p>Press N if the letters do not form a valid word.</p>',
     choices: ['Ready to start']
   }
-  timeline.push(instructions);
 
-  timeline.push(fullscreen_trial);
-
-	var trial_1 = {
-		type: 'survey-html-form',
-		preamble: '<p> Please enter your date of birth (MM,DD,YY)</b> </p>',
-	  html: '<p> <input name="Month" type="text" />, <input name="Day" type="text" />, <input name="Year" type="text" />.</p>'
+  var trial_1 = {
+      type: 'survey-html-form',
+      preamble: '<p> Please enter your date of birth (MM,DD,YY)</b> </p>',
+      html: '<p> <input name="Month" type="text" />, <input name="Day" type="text" />, <input name="Year" type="text" />.</p>'
     }
 
-  timeline.push(trial_1);
+  
 
   var trial_2 = {
     type:'survey-multi-choice',
@@ -32,7 +29,7 @@ var timeline = [];
     ],
   };
    
-  timeline.push(trial_2);
+  
 
   var trial_3 = {
     type:'survey-multi-choice',
@@ -42,7 +39,7 @@ var timeline = [];
           "Other"], required:true},
         ],
   };
-  timeline.push(trial_3);
+  
 
   var trial_4 = {
     type: 'survey-text',
@@ -51,7 +48,7 @@ var timeline = [];
     ]
   };
 
-  timeline.push(trial_4);
+  
 
   var trial_5 = {
     type: 'survey-text',
@@ -63,7 +60,7 @@ var timeline = [];
     ]
   };
 
-  timeline.push(trial_5);
+  
 
   var trial_6 = {
     type: 'survey-text',
@@ -75,7 +72,7 @@ var timeline = [];
     ]
   };
 
-  timeline.push(trial_6);
+  
 
   var trial_7 = {
     type:'survey-multi-select',
@@ -85,7 +82,7 @@ var timeline = [];
     ],
   };
    
-  timeline.push(trial_7);
+  
 
   var trial_8 = {
     type:'survey-multi-choice',
@@ -94,7 +91,7 @@ var timeline = [];
       'and/or do you practice an instrument on your own?', name: 'music', options: ["Yes","No"], required:true},
         ],
   };
-  timeline.push(trial_8);
+  
 
   var trial_9 = {
     type: 'survey-text',
@@ -107,7 +104,7 @@ var timeline = [];
     ]
   };
 
-  timeline.push(trial_9);
+  
 
   var trial_10 = {
     type:'survey-multi-choice',
@@ -115,18 +112,6 @@ var timeline = [];
       {prompt: 'Can you read music?', name: 'musicread', options: ["Yes","Somewhat","No"], required:true},
       ],
   };
-  timeline.push(trial_10);
-
-// add progress bar here
-  // var cnt = 0;
-  // var block_set = {
-  //     timeline: [trial_1, trial_2, trial_3,trial_4, trial_5, trial_6,trial_7, trial_8, trial_9,trial_10],
-  //     loop_function: function() {
-  //     cnt++;
-  //     return cnt < 2;
-  //   }
-  // }
-// %%%%%%%%%%%%%%%%%%%%%%
 
   var end_screen = {
     type: 'html-keyboard-response',
@@ -136,11 +121,25 @@ var timeline = [];
             'To best hear the sounds, please put on your headphones/earpods.'
   }
 
-  timeline.push(end_screen);
+  
 
   var fullscreen_trial_exit = {
     type: 'fullscreen',
     fullscreen_mode: false
   }
-
+  
+  var timeline = [];
+  timeline.push(instructions);
+  timeline.push(fullscreen_trial);
+  timeline.push(trial_1);
+  timeline.push(trial_2);
+  timeline.push(trial_3);
+  timeline.push(trial_4);
+  timeline.push(trial_5);
+  timeline.push(trial_6);
+  timeline.push(trial_7);
+  timeline.push(trial_8);
+  timeline.push(trial_9);
+  timeline.push(trial_10);
+  timeline.push(end_screen);
   timeline.push(fullscreen_trial_exit);
