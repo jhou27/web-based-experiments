@@ -58,7 +58,7 @@ timeline.push(play_1);
               'If you are ready, please press',
       choices: ['Continue']
     };
-//timeline.push(instruction);
+timeline.push(instruction);
     
   var audio_trial = {
         type: 'audio-keyboard-response',
@@ -67,10 +67,6 @@ timeline.push(play_1);
         stimulus: jsPsych.timelineVariable('stimulus'),
         choices: jsPsych.NO_KEYS,
         trial_ends_after_audio: true,
-        //randomize_order: true,
-        // data:{
-        // correct_response: jsPsych.timelineVariable('correct_response'),
-        // }
       };
       
   var response_trial = {
