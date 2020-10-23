@@ -58,7 +58,7 @@ timeline.push(play_1);
               'If you are ready, please press',
       choices: ['Continue']
     };
-timeline.push(instruction);
+//timeline.push(instruction);
     
   var audio_trial = {
         type: 'audio-keyboard-response',
